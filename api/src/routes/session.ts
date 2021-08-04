@@ -4,10 +4,10 @@ import { isLoggedIn } from "../middlewares/authMiddleware";
 import User from "../models/User";
 import { encryptPassword } from "../util/passwordUtils";
 
-const token = Router();
+const session = Router();
 
 // uses 'username' and 'password' field
-token
+session
   .route("/")
   .post(
     passport.authenticate("local", {
@@ -23,4 +23,4 @@ token
     req.logout();
   });
 
-export default token;
+export default session;
