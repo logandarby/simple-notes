@@ -52,7 +52,7 @@ const main = async () => {
   app
     .get("/login", (req, res) => {
       const form = `<h1>Login Page</h1>
-      <form method="POST" action="/token/login">\
+      <form method="POST" action="/token">\
         Enter Username:<br><input type="text" name="username">\
         <br>Enter Password:<br><input type="password" name="password">\
         <br><br><input type="submit" value="Submit">
@@ -70,7 +70,18 @@ const main = async () => {
     })
     .get("/logout", (req, res) => {
       req.logout();
-      res.sendStatus(200);
+      const form = `<button onclick="sendDelete(event);">
+        Logout?
+      </button>
+      <script>
+        function sendDelete(event){
+          event.preventDefault();
+          var xhttp = new XMLHttpRequest();
+          xhttp.open("DELETE", "/token", true);
+          xhttp.send();
+        }
+      </script>`;
+      res.send(form);
     })
     .get("/protected-route", isLoggedIn, (req, res) => {
       res.send("protected route!!");
