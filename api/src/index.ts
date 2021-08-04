@@ -5,8 +5,7 @@ import MongoStore from "connect-mongo";
 import passport from "passport";
 
 import "./config/passport";
-import auth from "./routes/auth";
-import notes from "./routes/notes";
+import routes from "./routes";
 
 const app = express();
 const PORT = process.env.PORT ?? 3000;
@@ -46,16 +45,7 @@ const main = async () => {
   app.use(passport.initialize());
   app.use(passport.session());
 
-  app.use(auth);
-  app.use("/notes", notes);
-
-  app.get("/", (req: any, res) => {
-    if (!req.session.views) {
-      req.session.views = 0;
-    }
-    req.session.views++;
-    res.send(`hi ${req.session.views}`);
-  });
+  app.use(routes);
 
   app.listen(PORT, () => {
     console.log(`Server running at localhost:${PORT} 🚀`);
