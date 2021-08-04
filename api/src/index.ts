@@ -6,6 +6,7 @@ import passport from "passport";
 
 import "./config/passport";
 import routes from "./routes";
+import { isLoggedIn } from "./middlewares/authMiddleware";
 
 const app = express();
 const PORT = process.env.PORT ?? 3000;
@@ -46,6 +47,34 @@ const main = async () => {
   app.use(passport.session());
 
   app.use(routes);
+
+  // developer auth routes for testing
+  app
+    .get("/login", (req, res) => {
+      const form = `<h1>Login Page</h1>
+      <form method="POST" action="/token/login">\
+        Enter Username:<br><input type="text" name="username">\
+        <br>Enter Password:<br><input type="password" name="password">\
+        <br><br><input type="submit" value="Submit">
+      </form>`;
+      res.send(form);
+    })
+    .get("/register", (req, res, next) => {
+      const form = `<h1>Register Page</h1>
+      <form method="post" action="/users">\
+        Enter Username:<br><input type="text" name="username">\
+        <br>Enter Password:<br><input type="password" name="password">
+        <br><br><input type="submit" value="Submit">
+      </form>`;
+      res.send(form);
+    })
+    .get("/logout", (req, res) => {
+      req.logout();
+      res.sendStatus(200);
+    })
+    .get("/protected-route", isLoggedIn, (req, res) => {
+      res.send("protected route!!");
+    });
 
   app.listen(PORT, () => {
     console.log(`Server running at localhost:${PORT} 🚀`);
