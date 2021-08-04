@@ -3,6 +3,8 @@ import express from "express";
 import session, { Session } from "express-session";
 import MongoStore from "connect-mongo";
 import passport from "passport";
+import YAML from "yamljs";
+import swaggerUi from "swagger-ui-express";
 
 import "./config/passport";
 import routes from "./routes";
@@ -47,6 +49,9 @@ const main = async () => {
   app.use(passport.session());
 
   app.use(routes);
+
+  const swaggerDocument = YAML.load("./src/openapi.yml");
+  app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
   // developer auth routes for testing
   app

@@ -1,0 +1,23 @@
+openapi: 3.0.0
+info:
+  title: Simple Notes API
+  version: 0.1.9
+
+paths:
+  /users:
+    post:
+      description: Register a new user.
+      requestBody:
+        required: true
+        content:
+          username:
+            schema:
+              type: string
+              example: "JohnDoe"
+          password:
+            schema:
+              type: string
+              example: "password12345"
+      responses:
+        "200":
+          description: OK
