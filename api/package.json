@@ -4,7 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "dev": "nodemon ./src/index.ts"
+    "dev": "nodemon ./src/index.ts --trace-warnings --unhandled-rejections=strict"
   },
   "devDependencies": {
     "@tsconfig/node14": "^1.0.1",
