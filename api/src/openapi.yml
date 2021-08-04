@@ -7,6 +7,8 @@ paths:
   /users:
     post:
       summary: Register a new user.
+      tags:
+        - users
       requestBody:
         required: true
         content:
@@ -19,6 +21,8 @@ paths:
   /session:
     post:
       summary: Logs in, and returns the authentication cookie
+      tags:
+        - session
       requestBody:
         required: true
         description: A JSON object containing the username and password
@@ -38,6 +42,8 @@ paths:
     delete:
       summary: Logs the user out
       description: Deletes the current user session
+      tags:
+        - session
       responses:
         "200":
           description: OK
@@ -45,6 +51,8 @@ paths:
   /notes:
     get:
       summary: Gets the user's notes
+      tags:
+        - notes
       security:
         - cookieAuth: []
       responses:
@@ -58,6 +66,78 @@ paths:
                   $ref: "#/components/schemas/Note"
         "401":
           $ref: "#/components/responses/UnauthorizedError"
+    post:
+      summary: Create a new note
+      tags:
+        - notes
+      security:
+        - cookieAuth: []
+      responses:
+        "200":
+          description: The newly created note
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Note"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+
+  /notes/{noteId}:
+    get:
+      summary: Gets the note
+      tags:
+        - notes
+      security:
+        - cookieAuth: []
+      responses:
+        "200":
+          description: The specified note
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Note"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+    patch:
+      summary: Update the note
+      tags:
+        - notes
+      security:
+        - cookieAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateNoteRequest"
+      responses:
+        "200":
+          description: The updated note
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Note"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+    delete:
+      summary: Delete a note
+      tags:
+        - notes
+      security:
+        - cookieAuth: []
+      responses:
+        "200":
+          description: Note was successfully deleted
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+
+tags:
+  - name: users
+    description: Everything about users
+  - name: notes
+    description: Everything about notes
+  - name: session
+    description: Handles cookie authentication
 
 components:
   schemas:
@@ -84,6 +164,13 @@ components:
           type: string
       required:
         - userId
+    UpdateNoteRequest:
+      type: object
+      properties:
+        title:
+          type: string
+        content:
+          type: string
     LoginRequest:
       type: object
       properties:
