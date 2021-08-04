@@ -18,6 +18,11 @@ const connectDatabase = async () => {
     });
     console.log("Database Connected 💾");
 
+    // Configuration
+    mongoose.set("useFindAndModify", false);
+    mongoose.set("returnOriginal", false);
+    console.log("Database Configured 🤓");
+
     return { mongooseInstance, sessionStore };
   } catch (err) {
     throw err;
