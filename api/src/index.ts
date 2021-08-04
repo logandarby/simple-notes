@@ -1,31 +1,21 @@
-import mongoose from "mongoose";
 import express from "express";
-import session, { Session } from "express-session";
-import MongoStore from "connect-mongo";
+import session from "express-session";
 import passport from "passport";
 import YAML from "yamljs";
 import swaggerUi from "swagger-ui-express";
 
 import "./config/passport";
+import connectDatabase from "./config/database";
 import routes from "./routes";
 import { isLoggedIn } from "./middlewares/authMiddleware";
 
 const app = express();
 const PORT = process.env.PORT ?? 3000;
-const DB_URI = process.env.DB_URI ?? "mongodb://localhost:27016/simple-notes";
 const SECRET = process.env.SECRET ?? "Ey2pTsjgZ26NKXv4GsJlXuCO4pSEM8g9";
 
 const main = async () => {
-  // Connecting Database
-  const mongooseInstance = await mongoose.connect(DB_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  });
-  const sessionStore = MongoStore.create({
-    client: mongooseInstance.connection.getClient(),
-    collectionName: "sessions",
-  });
-  console.log("Database Connected 💾");
+  let sessionStore;
+  ({ sessionStore } = await connectDatabase());
 
   // Initializing middleware
   app.use(express.json());
