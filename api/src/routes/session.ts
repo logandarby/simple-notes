@@ -21,6 +21,7 @@ session
   )
   .delete((req, res) => {
     req.logout();
+    res.sendStatus(200);
   });
 
 export default session;
