@@ -1,9 +1,21 @@
-import express, { Router } from "express";
+import express, { Request, Router } from "express";
 
 import { isLoggedIn } from "../middlewares/authMiddleware";
 import Note from "../models/Note";
 
 const notes = express.Router();
+
+/**
+ * Parses an Express request body to extract the note info safely.
+ * @param requestBody The Express request body
+ * @returns The note info extracted from the request body
+ */
+const parseNoteInfo = (requestBody: Request["body"]) => {
+  return {
+    title: requestBody.title,
+    contents: requestBody.contents,
+  };
+};
 
 notes.use(isLoggedIn);
 
@@ -15,7 +27,7 @@ notes
   })
   .post(async (req, res) => {
     const note = await Note.create({
-      ...req.body,
+      ...parseNoteInfo(req.body),
       userId: req.user!.id,
     });
     res.send(note);
@@ -28,7 +40,9 @@ notes
     res.send(note);
   })
   .patch(async (req, res) => {
-    const note = await Note.findByIdAndUpdate(req.params.id, { ...req.body });
+    const note = await Note.findByIdAndUpdate(req.params.id, {
+      ...parseNoteInfo(req.body),
+    });
     res.send(note);
   })
   .delete(async (req, res) => {
