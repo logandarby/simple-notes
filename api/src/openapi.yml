@@ -84,7 +84,7 @@ paths:
 
   /notes/{noteId}:
     get:
-      summary: Gets the note
+      summary: Get a note
       tags:
         - notes
       security:
@@ -99,7 +99,7 @@ paths:
         "401":
           $ref: "#/components/responses/UnauthorizedError"
     patch:
-      summary: Update the note
+      summary: Update a note
       tags:
         - notes
       security:

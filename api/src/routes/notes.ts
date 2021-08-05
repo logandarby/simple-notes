@@ -10,7 +10,6 @@ notes.use(isLoggedIn);
 notes
   .route("/")
   .get(async (req, res) => {
-    console.log("yo");
     const notes = await Note.find({ userId: req.user!.id });
     res.send(notes);
   })
