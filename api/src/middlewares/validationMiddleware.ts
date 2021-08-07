@@ -1,5 +1,6 @@
 import { Response, Request, NextFunction } from "express";
-import { body, validationResult } from "express-validator";
+import { body, CustomValidator, validationResult } from "express-validator";
+import User from "../models/User";
 
 type ExpressMiddleware = (
   req: Request,
@@ -21,13 +22,24 @@ export const validateRequest: ExpressMiddleware = (req, res, next) => {
   }
 };
 
+// Below are custom validators/sanitizers
+
+const isEmailUnique: CustomValidator = (email: string) => {
+  return User.findOne({ email }).then((user) => {
+    if (user) {
+      return Promise.reject("The Email must be unique");
+    }
+  });
+};
+
 // Below are the functions used to wrap and standardize express-validator
 // validations/sanitizers
 
 export const checkEmail = body("email")
   .trim()
   .normalizeEmail({ all_lowercase: false })
-  .isEmail();
+  .isEmail()
+  .custom(isEmailUnique);
 
 export const checkPassword = body("password")
   .trim()
