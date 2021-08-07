@@ -15,6 +15,9 @@ const customFields: IStrategyOptions = {
 };
 
 const verifyCallback: VerifyFunction = (email, password, done) => {
+  if (!email || !password) {
+    return done(new Error("Email or Password field was not provided"));
+  }
   User.findOne({ email })
     .then(async (user) => {
       if (!user) return done(null, false);
