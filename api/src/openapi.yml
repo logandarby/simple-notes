@@ -10,11 +10,7 @@ paths:
       tags:
         - users
       requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/User"
+        $ref: "#/components/requestBodies/User"
       responses:
         "200":
           description: User has been created
@@ -24,12 +20,7 @@ paths:
       tags:
         - session
       requestBody:
-        required: true
-        description: A JSON object containing the username and password
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/LoginRequest"
+        $ref: "#/components/requestBodies/User"
       responses:
         "200":
           description: >
@@ -77,7 +68,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/CreateNoteRequest"
+              $ref: "#/components/schemas/NoteRequest"
       responses:
         "200":
           description: The newly created note
@@ -95,6 +86,8 @@ paths:
         - notes
       security:
         - cookieAuth: []
+      parameters:
+        - $ref: "#/components/parameters/NoteId"
       responses:
         "200":
           description: The specified note
@@ -110,12 +103,14 @@ paths:
         - notes
       security:
         - cookieAuth: []
+      parameters:
+        - $ref: "#/components/parameters/NoteId"
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/UpdateNoteRequest"
+              $ref: "#/components/schemas/NoteRequest"
       responses:
         "200":
           description: The updated note
@@ -131,6 +126,8 @@ paths:
         - notes
       security:
         - cookieAuth: []
+      parameters:
+        - $ref: "#/components/parameters/NoteId"
       responses:
         "200":
           description: Note was successfully deleted
@@ -147,7 +144,12 @@ tags:
 
 components:
   schemas:
-    BasicNote:
+    ObjectId:
+      type: string
+      format: ObjectId
+      example: "610e9e9c6d14aa58ec37a62b"
+      readOnly: true
+    Note:
       type: object
       properties:
         title:
@@ -156,43 +158,51 @@ components:
         content:
           type: string
           example: "- Do the dishes"
-    Note:
-      allOf:
-        - $ref: "#/components/schemas/BasicNote"
-        - properties:
-            userId:
-              type: string
-          required:
-            - userId
-    UpdateNoteRequest:
-      allOf:
-        - $ref: "#/components/schemas/BasicNote"
-    CreateNoteRequest:
-      allOf:
-        - $ref: "#/components/schemas/BasicNote"
+        userId:
+          $ref: "#/components/schemas/ObjectId"
+        _id:
+          $ref: "#/components/schemas/ObjectId"
       required:
-        - title
-        - content
-    BasicUser:
+        - _id
+        - userId
+    NoteRequest:
+      allOf:
+        - $ref: "#/components/schemas/Note"
+    User:
       type: object
       properties:
         email:
           type: string
           example: "johndoe@email.com"
+          format: email
         password:
           type: string
           example: "password12345"
+          format: password
+          minLength: 6
+          maxLength: 30
+        _id:
+          $ref: "#/components/schemas/ObjectId"
       required:
         - email
         - password
+        - _id
+  parameters:
+    NoteId:
+      in: path
+      name: noteId
+      schema:
+        $ref: "#/components/schemas/ObjectId"
+      required: true
+      description: Numeric ID of the note to get
+  requestBodies:
     User:
-      type: object
-      allOf:
-        - $ref: "#/components/schemas/BasicUser"
-    LoginRequest:
-      type: object
-      allOf:
-        - $ref: "#/components/schemas/BasicUser"
+      required: true
+      description: A JSON object containing user info
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/User"
   securitySchemes:
     cookieAuth:
       type: apiKey
