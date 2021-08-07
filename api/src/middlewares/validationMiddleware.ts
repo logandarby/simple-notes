@@ -1,5 +1,12 @@
 import { Response, Request, NextFunction } from "express";
-import { body, CustomValidator, validationResult } from "express-validator";
+import {
+  body,
+  CustomValidator,
+  param,
+  validationResult,
+} from "express-validator";
+import { ObjectId } from "mongodb";
+import Note from "../models/Note";
 import User from "../models/User";
 
 type ExpressMiddleware = (
@@ -24,10 +31,21 @@ export const validateRequest: ExpressMiddleware = (req, res, next) => {
 
 // Below are custom validators/sanitizers
 
-const isEmailUnique: CustomValidator = (email: string) => {
+const isEmailUnique: CustomValidator = async (email: string) => {
   return User.findOne({ email }).then((user) => {
     if (user) {
       return Promise.reject("Email is already in use");
+    }
+  });
+};
+
+const isValidNoteId: CustomValidator = async (id: string) => {
+  if (!ObjectId.isValid(id)) {
+    throw new Error("ID is not valid");
+  }
+  return Note.findById(id).then((note) => {
+    if (!note) {
+      return Promise.reject("Note does not exist");
     }
   });
 };
@@ -46,3 +64,5 @@ export const checkPassword = body("password")
   .trim()
   .isLength({ min: 6, max: 30 })
   .withMessage("Password must be bewteen 6 and 30 characters long");
+
+export const checkNoteId = param("id").trim().custom(isValidNoteId);

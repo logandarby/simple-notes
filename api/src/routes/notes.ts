@@ -1,6 +1,10 @@
 import express, { Request, Router } from "express";
 
 import { isLoggedIn } from "../middlewares/authMiddleware";
+import {
+  checkNoteId,
+  validateRequest,
+} from "../middlewares/validationMiddleware";
 import Note from "../models/Note";
 
 const notes = express.Router();
@@ -32,6 +36,8 @@ notes
     });
     res.send(note);
   });
+
+notes.use("/:id", checkNoteId, validateRequest);
 
 notes
   .route("/:id")
