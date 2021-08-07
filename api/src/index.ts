@@ -48,7 +48,7 @@ const main = async () => {
     .get("/login", (req, res) => {
       const form = `<h1>Login Page</h1>
       <form method="POST" action="/session">\
-        Enter Username:<br><input type="text" name="username">\
+        Enter Email:<br><input type="text" name="email">\
         <br>Enter Password:<br><input type="password" name="password">\
         <br><br><input type="submit" value="Submit">
       </form>`;
@@ -57,7 +57,7 @@ const main = async () => {
     .get("/register", (req, res, next) => {
       const form = `<h1>Register Page</h1>
       <form method="post" action="/users">\
-        Enter Username:<br><input type="text" name="username">\
+        Enter Email:<br><input type="text" name="email">\
         <br>Enter Password:<br><input type="password" name="password">
         <br><br><input type="submit" value="Submit">
       </form>`;

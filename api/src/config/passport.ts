@@ -1,12 +1,21 @@
 import passport from "passport";
-import { Strategy as LocalStrategy, VerifyFunction } from "passport-local";
+import {
+  IStrategyOptions,
+  Strategy as LocalStrategy,
+  VerifyFunction,
+} from "passport-local";
 import { ObjectId } from "mongoose";
 
 import User from "../models/User";
 import { validPassword } from "../util/passwordUtils";
 
-const verifyCallback: VerifyFunction = (username, password, done) => {
-  User.findOne({ username })
+const customFields: IStrategyOptions = {
+  usernameField: "email",
+  passwordField: "password",
+};
+
+const verifyCallback: VerifyFunction = (email, password, done) => {
+  User.findOne({ email })
     .then(async (user) => {
       if (!user) return done(null, false);
       const isValid = await validPassword(password, user.password);
@@ -39,6 +48,6 @@ declare global {
   }
 }
 
-const strategy = new LocalStrategy(verifyCallback);
+const strategy = new LocalStrategy(customFields, verifyCallback);
 
 passport.use(strategy);

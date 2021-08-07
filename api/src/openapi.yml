@@ -17,7 +17,7 @@ paths:
               $ref: "#/components/schemas/User"
       responses:
         "200":
-          description: OK
+          description: User has been created
   /session:
     post:
       summary: Logs in, and returns the authentication cookie
@@ -50,7 +50,7 @@ paths:
 
   /notes:
     get:
-      summary: Gets the user's notes
+      summary: Get the user's notes
       tags:
         - notes
       security:
@@ -72,6 +72,12 @@ paths:
         - notes
       security:
         - cookieAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateNoteRequest"
       responses:
         "200":
           description: The newly created note
@@ -141,48 +147,52 @@ tags:
 
 components:
   schemas:
+    BasicNote:
+      type: object
+      properties:
+        title:
+          type: string
+          example: "ToDo List"
+        content:
+          type: string
+          example: "- Do the dishes"
+    Note:
+      allOf:
+        - $ref: "#/components/schemas/BasicNote"
+        - properties:
+            userId:
+              type: string
+          required:
+            - userId
+    UpdateNoteRequest:
+      allOf:
+        - $ref: "#/components/schemas/BasicNote"
+    CreateNoteRequest:
+      allOf:
+        - $ref: "#/components/schemas/BasicNote"
+      required:
+        - title
+        - content
+    BasicUser:
+      type: object
+      properties:
+        email:
+          type: string
+          example: "johndoe@email.com"
+        password:
+          type: string
+          example: "password12345"
+      required:
+        - email
+        - password
     User:
       type: object
-      properties:
-        username:
-          type: string
-          example: "JohnDoe"
-        password:
-          type: string
-          example: "password12345"
-      required:
-        - username
-        - password
-    Note:
-      type: object
-      properties:
-        title:
-          type: string
-        content:
-          type: string
-        userId:
-          type: string
-      required:
-        - userId
-    UpdateNoteRequest:
-      type: object
-      properties:
-        title:
-          type: string
-        content:
-          type: string
+      allOf:
+        - $ref: "#/components/schemas/BasicUser"
     LoginRequest:
       type: object
-      properties:
-        username:
-          type: string
-          example: "JohnDoe"
-        password:
-          type: string
-          example: "password12345"
-      required:
-        - username
-        - password
+      allOf:
+        - $ref: "#/components/schemas/BasicUser"
   securitySchemes:
     cookieAuth:
       type: apiKey

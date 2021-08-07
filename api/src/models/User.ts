@@ -17,7 +17,7 @@ class UserClass {
   public password: string;
 
   @prop({ required: true })
-  public username: string;
+  public email: string;
 }
 
 const User = getModelForClass(UserClass);
