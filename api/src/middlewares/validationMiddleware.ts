@@ -27,7 +27,7 @@ export const validateRequest: ExpressMiddleware = (req, res, next) => {
 const isEmailUnique: CustomValidator = (email: string) => {
   return User.findOne({ email }).then((user) => {
     if (user) {
-      return Promise.reject("The Email must be unique");
+      return Promise.reject("Email is already in use");
     }
   });
 };
@@ -39,8 +39,10 @@ export const checkEmail = body("email")
   .trim()
   .normalizeEmail({ all_lowercase: false })
   .isEmail()
+  .withMessage("Email is invalid")
   .custom(isEmailUnique);
 
 export const checkPassword = body("password")
   .trim()
-  .isLength({ min: 6, max: 30 });
+  .isLength({ min: 6, max: 30 })
+  .withMessage("Password must be bewteen 6 and 30 characters long");
