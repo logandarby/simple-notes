@@ -5,7 +5,8 @@ import {
   checkNoteId,
   validateRequest,
 } from "../middlewares/validationMiddleware";
-import Note from "../models/Note";
+import Note from "../entity/Note";
+import User from "../entity/User";
 
 const notes = express.Router();
 
@@ -26,33 +27,46 @@ notes.use(isLoggedIn);
 notes
   .route("/")
   .get(async (req, res) => {
-    const notes = await Note.find({ userId: req.user!.id });
+    const notes = await Note.find({ where: { user: req.user!.id } });
     res.send(notes);
   })
   .post(async (req, res) => {
-    const note = await Note.create({
+    const user = await User.findOne({ where: { id: req.user!.id } });
+    const result = await Note.insert({
       ...parseNoteInfo(req.body),
-      userId: req.user!.id,
+      user: { id: req.user!.id },
     });
-    res.send(note);
+    res.send({
+      ...parseNoteInfo(req.body),
+      id: result.identifiers[0].id,
+    });
   });
 
-notes.use("/:id", checkNoteId, validateRequest);
+// notes.use("/:id", checkNoteId, validateRequest);
 
 notes
   .route("/:id")
   .get(async (req, res) => {
-    const note = await Note.findById(req.params.id);
+    const note = await Note.findOne({
+      where: { id: req.params.id, user: req.user!.id },
+    });
+    if (!note) return res.sendStatus(404);
     res.send(note);
   })
   .patch(async (req, res) => {
-    const note = await Note.findByIdAndUpdate(req.params.id, {
-      ...parseNoteInfo(req.body),
-    });
-    res.send(note);
+    const result = await Note.update(
+      { id: req.params.id, user: { id: req.user!.id } },
+      { ...parseNoteInfo(req.body) }
+    );
+    if (result.affected === 0) return res.sendStatus(404);
+    res.sendStatus(200);
   })
   .delete(async (req, res) => {
-    await Note.findByIdAndDelete(req.params.id);
+    const result = await Note.delete({
+      id: req.params.id,
+      user: { id: req.user!.id },
+    });
+    if (result.affected === 0) return res.sendStatus(404);
     res.sendStatus(200);
   });
 

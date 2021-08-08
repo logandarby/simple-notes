@@ -1,6 +1,7 @@
 import { Router } from "express";
+import { getRepository } from "typeorm";
 
-import User from "../models/User";
+import User from "../entity/User";
 import { encryptPassword } from "../util/passwordUtils";
 import {
   checkEmail,
@@ -10,15 +11,14 @@ import {
 
 const users = Router();
 
-users
-  .route("/")
-  .post(checkEmail, checkPassword, validateRequest, async (req, res) => {
-    const encrypedPassword = await encryptPassword(req.body.password);
-    await User.create({
-      email: req.body.email,
-      password: encrypedPassword,
-    });
-    res.redirect("/login");
+users.route("/").post(async (req, res) => {
+  const encrypedPassword = await encryptPassword(req.body.password);
+  const user = User.create({
+    email: req.body.email,
+    password: encrypedPassword,
   });
+  await user.save();
+  res.redirect("/login");
+});
 
 export default users;
