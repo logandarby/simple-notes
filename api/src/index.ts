@@ -8,7 +8,6 @@ import { TypeormStore } from "connect-typeorm";
 
 import "./config/passport";
 import routes from "./routes";
-import { isLoggedIn } from "./middlewares/authMiddleware";
 import { Session } from "./entity/Session";
 import { createConnection } from "typeorm";
 
@@ -49,45 +48,6 @@ const main = async () => {
 
   const swaggerDocument = YAML.load("./src/openapi.yml");
   app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-
-  // developer auth routes for testing
-  app
-    .get("/login", (req, res) => {
-      const form = `<h1>Login Page</h1>
-      <form method="POST" action="/session">\
-        Enter Email:<br><input type="text" name="email">\
-        <br>Enter Password:<br><input type="password" name="password">\
-        <br><br><input type="submit" value="Submit">
-      </form>`;
-      res.send(form);
-    })
-    .get("/register", (req, res, next) => {
-      const form = `<h1>Register Page</h1>
-      <form method="post" action="/users">\
-        Enter Email:<br><input type="text" name="email">\
-        <br>Enter Password:<br><input type="password" name="password">
-        <br><br><input type="submit" value="Submit">
-      </form>`;
-      res.send(form);
-    })
-    .get("/logout", (req, res) => {
-      req.logout();
-      const form = `<button onclick="sendDelete(event);">
-        Logout?
-      </button>
-      <script>
-        function sendDelete(event){
-          event.preventDefault();
-          var xhttp = new XMLHttpRequest();
-          xhttp.open("DELETE", "/session", true);
-          xhttp.send();
-        }
-      </script>`;
-      res.send(form);
-    })
-    .get("/protected-route", isLoggedIn, (req, res) => {
-      res.send("protected route!!");
-    });
 
   app.listen(PORT, () => {
     console.log(`Server running at localhost:${PORT} 🚀`);
