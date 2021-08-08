@@ -6,7 +6,7 @@ import {
 } from "passport-local";
 import { ObjectId } from "mongoose";
 
-import User from "../models/User";
+import User from "../entity/User";
 import { validPassword } from "../util/passwordUtils";
 
 const customFields: IStrategyOptions = {
@@ -18,7 +18,7 @@ const verifyCallback: VerifyFunction = (email, password, done) => {
   if (!email || !password) {
     return done(new Error("Email or Password field was not provided"));
   }
-  User.findOne({ email })
+  User.findOne({ where: { email } })
     .then(async (user) => {
       if (!user) return done(null, false);
       const isValid = await validPassword(password, user.password);
@@ -38,9 +38,13 @@ passport.serializeUser((user: any, done) => {
 });
 
 passport.deserializeUser((userId, done) => {
-  User.findById(userId, (err: Error, user: any) => {
-    done(err, user);
-  });
+  User.findOne({ where: { id: userId } })
+    .then((user) => {
+      done(null, user);
+    })
+    .catch((err) => {
+      done(err);
+    });
 });
 
 declare global {
