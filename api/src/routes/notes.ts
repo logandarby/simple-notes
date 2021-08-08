@@ -6,7 +6,6 @@ import {
   validateRequest,
 } from "../middlewares/validationMiddleware";
 import Note from "../entity/Note";
-import User from "../entity/User";
 
 const notes = express.Router();
 
@@ -31,7 +30,7 @@ notes
     res.send(notes);
   })
   .post(async (req, res) => {
-    const user = await User.findOne({ where: { id: req.user!.id } });
+    // const user = await User.findOne({ where: { id: req.user!.id } });
     const result = await Note.insert({
       ...parseNoteInfo(req.body),
       user: { id: req.user!.id },
@@ -42,7 +41,7 @@ notes
     });
   });
 
-// notes.use("/:id", checkNoteId, validateRequest);
+notes.use("/:id", checkNoteId, validateRequest);
 
 notes
   .route("/:id")

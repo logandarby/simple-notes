@@ -11,14 +11,16 @@ import {
 
 const users = Router();
 
-users.route("/").post(async (req, res) => {
-  const encrypedPassword = await encryptPassword(req.body.password);
-  const user = User.create({
-    email: req.body.email,
-    password: encrypedPassword,
+users
+  .route("/")
+  .post(checkEmail, checkPassword, validateRequest, async (req, res) => {
+    const encrypedPassword = await encryptPassword(req.body.password);
+    const user = User.create({
+      email: req.body.email,
+      password: encrypedPassword,
+    });
+    await user.save();
+    res.redirect("/login");
   });
-  await user.save();
-  res.redirect("/login");
-});
 
 export default users;
