@@ -2,7 +2,6 @@ import {
   BaseEntity,
   Column,
   Entity,
-  getRepository,
   Index,
   ManyToOne,
   PrimaryGeneratedColumn,

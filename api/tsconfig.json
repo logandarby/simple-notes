@@ -5,6 +5,7 @@
     "emitDecoratorMetadata": true,
     "strictPropertyInitialization": false,
     "sourceMap": true,
-    "moduleResolution": "node"
+    "moduleResolution": "node",
+    "noUnusedLocals": true
   }
 }

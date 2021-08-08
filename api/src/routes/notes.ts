@@ -1,4 +1,4 @@
-import express, { Request, Router } from "express";
+import express, { Request } from "express";
 
 import { isLoggedIn } from "../middlewares/authMiddleware";
 import {

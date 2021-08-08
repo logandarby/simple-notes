@@ -1,5 +1,4 @@
 import { Router } from "express";
-import { getRepository } from "typeorm";
 
 import User from "../entity/User";
 import { encryptPassword } from "../util/passwordUtils";

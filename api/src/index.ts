@@ -17,9 +17,6 @@ const PORT = process.env.PORT ?? 3000;
 const SECRET = process.env.SECRET ?? "Ey2pTsjgZ26NKXv4GsJlXuCO4pSEM8g9";
 
 const main = async () => {
-  // let sessionStore;
-  // ({ sessionStore } = await connectDatabase());
-
   const connection = await createConnection();
   console.log("Database Connected 💾");
   const sessionRepository = connection.getRepository(Session);

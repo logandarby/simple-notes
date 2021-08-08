@@ -4,7 +4,6 @@ import {
   Strategy as LocalStrategy,
   VerifyFunction,
 } from "passport-local";
-import { ObjectId } from "mongoose";
 
 import User from "../entity/User";
 import { validPassword } from "../util/passwordUtils";
