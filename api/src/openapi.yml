@@ -30,6 +30,8 @@ paths:
             Set-Cookie:
               schema:
                 type: string
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
     delete:
       summary: Logs the user out
       description: Deletes the current user session
@@ -37,7 +39,7 @@ paths:
         - session
       responses:
         "200":
-          description: OK
+          description: User has been logged out
 
   /notes:
     get:
@@ -68,7 +70,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/NoteRequest"
+              $ref: "#/components/schemas/Note"
       responses:
         "200":
           description: The newly created note
@@ -97,6 +99,10 @@ paths:
                 $ref: "#/components/schemas/Note"
         "401":
           $ref: "#/components/responses/UnauthorizedError"
+        "400":
+          $ref: "#/components/responses/BadRequestError"
+        "404":
+          $ref: "#/components/responses/NotFoundError"
     patch:
       summary: Update a note
       tags:
@@ -110,16 +116,16 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/NoteRequest"
+              $ref: "#/components/schemas/Note"
       responses:
         "200":
-          description: The updated note
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Note"
+          description: The note has successfully been updated
         "401":
           $ref: "#/components/responses/UnauthorizedError"
+        "400":
+          $ref: "#/components/responses/BadRequestError"
+        "404":
+          $ref: "#/components/responses/NotFoundError"
     delete:
       summary: Delete a note
       tags:
@@ -133,21 +139,26 @@ paths:
           description: Note was successfully deleted
         "401":
           $ref: "#/components/responses/UnauthorizedError"
+        "400":
+          $ref: "#/components/responses/BadRequestError"
+        "404":
+          $ref: "#/components/responses/NotFoundError"
 
 tags:
   - name: users
-    description: Everything about users
+    description: The user resource
   - name: notes
-    description: Everything about notes
+    description: The note resource
   - name: session
     description: Handles cookie authentication
 
 components:
   schemas:
-    ObjectId:
+    UUID:
       type: string
-      format: ObjectId
-      example: "610e9e9c6d14aa58ec37a62b"
+      description: A UUID assigned to the resource
+      format: UUID
+      example: "3e520fed-b922-4a5c-ae0b-594d343deacc"
       readOnly: true
     Note:
       type: object
@@ -158,16 +169,10 @@ components:
         content:
           type: string
           example: "- Do the dishes"
-        userId:
-          $ref: "#/components/schemas/ObjectId"
-        _id:
-          $ref: "#/components/schemas/ObjectId"
+        id:
+          $ref: "#/components/schemas/UUID"
       required:
-        - _id
-        - userId
-    NoteRequest:
-      allOf:
-        - $ref: "#/components/schemas/Note"
+        - id
     User:
       type: object
       properties:
@@ -181,20 +186,45 @@ components:
           format: password
           minLength: 6
           maxLength: 30
-        _id:
-          $ref: "#/components/schemas/ObjectId"
+        id:
+          $ref: "#/components/schemas/UUID"
       required:
         - email
         - password
-        - _id
+        - id
+    ValidationError:
+      type: object
+      description: An object describing the reason for a "400 - Bad Request" error
+      properties:
+        value:
+          type: string
+          description: The parameter value which is invalid
+          example: "notAValidEmail.com"
+        msg:
+          type: string
+          description: The reason the parameter is invalid
+          example: "Not a valid email"
+        param:
+          type: string
+          description: The parameter name which is invalid
+          example: "email"
+        location:
+          type: string
+          description: Where the parameter was located
+          example: "body"
+      required:
+        - value
+        - msg
+        - param
+        - location
   parameters:
     NoteId:
       in: path
       name: noteId
       schema:
-        $ref: "#/components/schemas/ObjectId"
+        $ref: "#/components/schemas/UUID"
       required: true
-      description: Numeric ID of the note to get
+      description: UUID of the note to get
   requestBodies:
     User:
       required: true
@@ -211,3 +241,18 @@ components:
   responses:
     UnauthorizedError:
       description: Access token is missing or invalid
+    NotFoundError:
+      description: The requested resources was not found
+    BadRequestError:
+      description: The request parameters/body are invalid
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ValidationError"
+            required:
+              - errors
