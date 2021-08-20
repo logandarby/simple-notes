@@ -12,7 +12,7 @@ import { Session } from "./entity/Session";
 import { createConnection } from "typeorm";
 
 const app = express();
-const PORT = process.env.PORT ?? 3000;
+const PORT = process.env.PORT ?? 4000;
 const SECRET = process.env.SECRET ?? "Ey2pTsjgZ26NKXv4GsJlXuCO4pSEM8g9";
 
 const main = async () => {
