@@ -1,0 +1,28 @@
+#website-header {
+  font-style: normal;
+  font-weight: bold;
+  font-size: 4rem;
+  line-height: 4.875rem;
+}
+
+@mixin h1 {
+  font-style: normal;
+  font-weight: bold;
+  font-size: 1rem;
+  line-height: 1.25rem;
+}
+
+h1 {
+  @include h1();
+}
+
+@mixin p {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 1rem;
+  line-height: 1.25rem;
+}
+
+p {
+  @include p();
+}
