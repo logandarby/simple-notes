@@ -1,0 +1,17 @@
+@use '../styles/style' as *;
+
+.Button {
+  @include h1;
+  border: none;
+  background-color: $dgreen;
+  color: $dbrown;
+  padding: 0.6em 1.4em;
+  border-radius: $radius-tiny;
+  transition: transform 0.1s, filter 0.1s;
+  &:hover {
+    filter: brightness(0.7);
+  }
+  &:active {
+    transform: translateY(0.4em);
+  }
+}
