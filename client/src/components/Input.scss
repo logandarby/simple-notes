@@ -1,0 +1,16 @@
+@use '../styles/style' as *;
+
+.Input {
+  background-color: $eggshell;
+  color: $umber;
+  border: none;
+  @include p;
+  border-radius: $radius-tiny;
+  @include inline-component-padding;
+  outline: none;
+  transition: box-shadow 0.1s ease;
+  caret-color: $umber;
+  &:focus {
+    box-shadow: $box-shadow;
+  }
+}

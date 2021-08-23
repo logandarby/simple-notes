@@ -6,6 +6,7 @@
 }
 
 @mixin h1 {
+  font-family: unset;
   font-style: normal;
   font-weight: bold;
   font-size: 1rem;
