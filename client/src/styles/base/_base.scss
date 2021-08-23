@@ -1,5 +1,11 @@
+@use './typography' as *;
+
 body {
   margin: 0;
+}
+
+label {
+  @include h1;
 }
 
 code {
