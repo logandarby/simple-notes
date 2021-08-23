@@ -1,3 +1,5 @@
+@use './styles/style.scss' as *;
+
 body {
-  background-color: var(--lwhite);
+  background-color: $offwhite;
 }
