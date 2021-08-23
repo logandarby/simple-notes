@@ -3,8 +3,8 @@
 .Button {
   @include h1;
   border: none;
-  background-color: $dgreen;
-  color: $dbrown;
+  background-color: $greenyellow;
+  color: $umber;
   padding: 0.6em 1.4em;
   border-radius: $radius-tiny;
   transition: transform 0.1s, filter 0.1s;
