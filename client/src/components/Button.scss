@@ -5,7 +5,8 @@
   border: none;
   background-color: $greenyellow;
   color: $umber;
-  padding: 0.6em 1.4em;
+
+  @include inline-component-padding;
   border-radius: $radius-tiny;
   transition: transform 0.1s, filter 0.1s;
   &:hover {
