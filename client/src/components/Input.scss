@@ -6,9 +6,9 @@
   border: none;
   @include p;
   border-radius: $radius-tiny;
-  @include inline-component-padding;
+  @include text-component-padding;
   outline: none;
-  transition: box-shadow 0.1s ease;
+  transition: box-shadow 0.2s ease;
   caret-color: $umber;
   &:focus {
     box-shadow: $box-shadow;
