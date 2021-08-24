@@ -1,0 +1,20 @@
+@use '../../styles/style.scss' as *;
+
+.Note {
+  border: $border;
+  border-radius: $radius-lg;
+  background-color: $offwhite;
+  width: 14rem;
+  height: 14em;
+  padding: 2.5em;
+  @include button-press;
+  &__Title {
+    word-wrap: break-word;
+    margin-top: 0;
+  }
+  &__Contents {
+    word-wrap: break-word;
+    height: 85%;
+    mask-image: linear-gradient(to bottom, white 0 50%, transparent);
+  }
+}
