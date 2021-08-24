@@ -56,3 +56,11 @@ export const checkNoteId = param("id")
   .trim()
   .isUUID()
   .withMessage("ID is invalid");
+
+export const checkNoteTitle = body("title")
+  .exists()
+  .withMessage("'Body' parameter must be supplied");
+
+export const checkNoteContents = body("contents")
+  .exists()
+  .withMessage("'Contents' parameter must be supplied");

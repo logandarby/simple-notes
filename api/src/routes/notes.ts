@@ -2,7 +2,9 @@ import express, { Request } from "express";
 
 import { isLoggedIn } from "../middlewares/authMiddleware";
 import {
+  checkNoteContents,
   checkNoteId,
+  checkNoteTitle,
   validateRequest,
 } from "../middlewares/validationMiddleware";
 import Note from "../entity/Note";
@@ -29,17 +31,22 @@ notes
     const notes = await Note.find({ where: { user: req.user!.id } });
     res.send(notes);
   })
-  .post(async (req, res) => {
-    // const user = await User.findOne({ where: { id: req.user!.id } });
-    const result = await Note.insert({
-      ...parseNoteInfo(req.body),
-      user: { id: req.user!.id },
-    });
-    res.send({
-      ...parseNoteInfo(req.body),
-      id: result.identifiers[0].id,
-    });
-  });
+  .post(
+    checkNoteTitle,
+    checkNoteContents,
+    validateRequest,
+    async (req, res) => {
+      // const user = await User.findOne({ where: { id: req.user!.id } });
+      const result = await Note.insert({
+        ...parseNoteInfo(req.body),
+        user: { id: req.user!.id },
+      });
+      res.send({
+        ...parseNoteInfo(req.body),
+        id: result.identifiers[0].id,
+      });
+    }
+  );
 
 notes.use("/:id", checkNoteId, validateRequest);
 
@@ -52,7 +59,7 @@ notes
     if (!note) return res.sendStatus(404);
     res.send(note);
   })
-  .patch(async (req, res) => {
+  .put(checkNoteTitle, checkNoteContents, validateRequest, async (req, res) => {
     const result = await Note.update(
       { id: req.params.id, user: { id: req.user!.id } },
       { ...parseNoteInfo(req.body) }

@@ -105,7 +105,7 @@ paths:
           $ref: "#/components/responses/BadRequestError"
         "404":
           $ref: "#/components/responses/NotFoundError"
-    patch:
+    put:
       summary: Update a note
       tags:
         - notes
@@ -168,13 +168,15 @@ components:
         title:
           type: string
           example: "ToDo List"
-        content:
+        contents:
           type: string
           example: "- Do the dishes"
         id:
           $ref: "#/components/schemas/UUID"
       required:
         - id
+        - title
+        - contents
     User:
       type: object
       properties:
