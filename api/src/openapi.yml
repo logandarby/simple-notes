@@ -14,6 +14,8 @@ paths:
       responses:
         "200":
           description: User has been created
+        "400":
+          $ref: "#/components/responses/BadRequestError"
   /session:
     post:
       summary: Logs in, and returns the authentication cookie
@@ -30,6 +32,8 @@ paths:
             Set-Cookie:
               schema:
                 type: string
+        "400":
+          $ref: "#/components/responses/BadRequestError"
         "401":
           $ref: "#/components/responses/UnauthorizedError"
     delete:
@@ -180,6 +184,7 @@ components:
           type: string
           example: "johndoe@email.com"
           format: email
+          maxLength: 255
         password:
           type: string
           example: "password12345"
