@@ -1,0 +1,19 @@
+@use "sass:math" as *;
+
+.SearchBar {
+  position: relative;
+  $text-padding: 3rem;
+  $icon-width: 1.4rem;
+  &__Input {
+    width: 30rem;
+    padding-left: $text-padding;
+  }
+  &__Icon {
+    position: absolute;
+    width: $icon-width;
+    margin-top: auto;
+    margin-bottom: auto;
+    height: 100%;
+    margin-left: div($text-padding - $icon-width, 2);
+  }
+}

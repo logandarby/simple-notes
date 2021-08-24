@@ -1,13 +1,15 @@
 import { useState } from "react";
 import { useEffect } from "react";
-import { Note } from "../apiResources";
 
 import "./Notes.scss";
 import Header from "./notes/Header";
 import NoteContainer from "./notes/NoteContainer";
+import SearchBar from "./notes/SearchBar";
+import { Note } from "../apiResources";
 
 function Notes() {
-  const [notes, setNotes] = useState([]);
+  const [notes, setNotes] = useState<Note[]>([]);
+  const [searchQuery, setSearchQuery] = useState<string>("");
 
   // Fetch notes on component mount
   useEffect(() => {
@@ -15,18 +17,39 @@ function Notes() {
       method: "GET",
       credentials: "include",
     })
-      .then((res) => res.json())
+      .then((res) => {
+        if (res.status === 401) {
+          window.location.href = "/login";
+        }
+        return res.json();
+      })
       .then((json) => {
         setNotes(json);
       });
   }, []);
 
+  const filterNotes = (notes: Note[], query: string) => {
+    if (!query) {
+      return notes;
+    }
+    return notes.filter((note) => {
+      const noteTitle = note.title.toLowerCase();
+      const noteContents = note.contents.toLowerCase();
+      return noteTitle.includes(query) || noteContents.includes(query);
+    });
+  };
+
   return (
     <div className="Notes">
       <Header />
       <main>
+        <SearchBar
+          className="Notes__SearchBar"
+          searchQuery={searchQuery}
+          setSearchQuery={setSearchQuery}
+        />
         <section className="Notes__Grid">
-          {notes.map((note: Note) => {
+          {filterNotes(notes, searchQuery).map((note: Note) => {
             return <NoteContainer note={note} key={note.id} />;
           })}
         </section>
