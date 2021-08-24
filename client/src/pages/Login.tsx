@@ -10,7 +10,14 @@ function Login() {
       },
       body: JSON.stringify(body),
     }).then((res) => {
-      console.log(res.json());
+      switch (res.status) {
+        case 401:
+          console.log("invalid input");
+          break;
+        case 200:
+          console.log("redirecting to notes");
+          break;
+      }
     });
   };
 
