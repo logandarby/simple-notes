@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 import "./NoteContainer.scss";
 import { Note } from "../../apiResources";
 

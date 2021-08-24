@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { Note } from "../apiResources";
 
 import "./Notes.scss";
+import Header from "./notes/Header";
 import NoteContainer from "./notes/NoteContainer";
 
 function Notes() {
@@ -22,10 +23,13 @@ function Notes() {
 
   return (
     <div className="Notes">
+      <Header />
       <main>
-        {notes.map((note: Note) => {
-          return <NoteContainer note={note} key={note.id} />;
-        })}
+        <div className="Notes__Grid">
+          {notes.map((note: Note) => {
+            return <NoteContainer note={note} key={note.id} />;
+          })}
+        </div>
       </main>
     </div>
   );

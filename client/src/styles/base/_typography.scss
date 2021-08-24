@@ -1,12 +1,5 @@
 @use '../abstracts/variables' as *;
 
-#website-header {
-  font-style: normal;
-  font-weight: bold;
-  font-size: 4rem;
-  line-height: 4.875rem;
-}
-
 @mixin h1 {
   color: $umber;
   font-family: unset;
