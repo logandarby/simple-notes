@@ -25,11 +25,11 @@ function Notes() {
     <div className="Notes">
       <Header />
       <main>
-        <div className="Notes__Grid">
+        <section className="Notes__Grid">
           {notes.map((note: Note) => {
             return <NoteContainer note={note} key={note.id} />;
           })}
-        </div>
+        </section>
       </main>
     </div>
   );

@@ -1,7 +1,9 @@
 @use './typography' as *;
+@use '../abstracts/variables' as *;
 
 body {
   margin: 0;
+  background-color: $offwhite;
 }
 
 label {
