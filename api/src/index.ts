@@ -2,6 +2,7 @@ import "reflect-metadata";
 import express from "express";
 import session from "express-session";
 import passport from "passport";
+import cors from "cors";
 import YAML from "yamljs";
 import swaggerUi from "swagger-ui-express";
 import { TypeormStore } from "connect-typeorm";
@@ -24,6 +25,7 @@ const main = async () => {
   }).connect(sessionRepository);
 
   // Initializing middleware
+  app.use(cors());
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
 
