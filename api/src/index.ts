@@ -25,7 +25,12 @@ const main = async () => {
   }).connect(sessionRepository);
 
   // Initializing middleware
-  app.use(cors());
+  app.use(
+    cors({
+      origin: "http://localhost:3000",
+      credentials: true,
+    })
+  );
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
 
@@ -38,7 +43,7 @@ const main = async () => {
       cookie: {
         maxAge: 1000 * 60 * 60 * 24 * 30, // A month
         httpOnly: true,
-        // secure: true, // for production environment using https
+        //secure: true, // for production environment using https
       },
     })
   );
