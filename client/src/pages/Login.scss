@@ -1,33 +1,7 @@
-@use '../styles/style' as *;
-
 .Login {
   height: 100vh;
   width: 100vw;
   display: grid;
   align-content: center;
   justify-content: center;
-
-  &__Form {
-    transform: translateY(-6rem);
-    height: fit-content;
-    width: fit-content;
-    border: $border;
-    border-radius: $radius-lg;
-    padding: 4em 3em;
-    display: flex;
-    align-items: flex-start;
-    flex-direction: column;
-  }
-
-  &__Label {
-    margin-bottom: 0.6em;
-    &--password {
-      margin-top: 1.5em;
-    }
-  }
-
-  &__Button {
-    margin-top: 6em;
-    align-self: center;
-  }
 }
