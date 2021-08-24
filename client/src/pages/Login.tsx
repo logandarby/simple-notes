@@ -25,7 +25,7 @@ function Login() {
 
   return (
     <div className="Login">
-      <Form onSubmit={handleSubmit} />
+      <Form className="Login__Form" onSubmit={handleSubmit} />
     </div>
   );
 }
