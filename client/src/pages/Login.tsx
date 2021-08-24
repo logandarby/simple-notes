@@ -5,14 +5,19 @@ import Input from "../components/Input";
 function Login() {
   return (
     <div className="Login">
-      <form className="Login-Form">
-        <label htmlFor="email">email</label>
-        <Input name="email" />
-        <label htmlFor="password" id="password-label">
+      <form className="Login__Form">
+        <label htmlFor="email" className="Login__Label">
+          email
+        </label>
+        <Input name="email" className="Login__Input" />
+        <label
+          htmlFor="password"
+          className="Login__Label Login__Label--password"
+        >
           password
         </label>
-        <Input type="password" name="password" />
-        <Button text="sumbit" />
+        <Input type="password" name="password" className="Login__Input" />
+        <Button className="Login__Button" text="sumbit" />
       </form>
     </div>
   );

@@ -6,26 +6,28 @@
   display: grid;
   align-content: center;
   justify-content: center;
-}
 
-.Login-Form {
-  transform: translateY(-6rem);
-  height: fit-content;
-  width: fit-content;
-  border: $border;
-  border-radius: $radius-lg;
-  padding: 4em 3em;
-  display: flex;
-  align-items: flex-start;
-  flex-direction: column;
-  label {
-    margin-bottom: 0.6em;
+  &__Form {
+    transform: translateY(-6rem);
+    height: fit-content;
+    width: fit-content;
+    border: $border;
+    border-radius: $radius-lg;
+    padding: 4em 3em;
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
   }
-  button {
+
+  &__Label {
+    margin-bottom: 0.6em;
+    &--password {
+      margin-top: 1.5em;
+    }
+  }
+
+  &__Button {
     margin-top: 6em;
     align-self: center;
-  }
-  #password-label {
-    margin-top: 1.5em;
   }
 }
