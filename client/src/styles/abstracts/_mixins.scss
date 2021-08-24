@@ -1,4 +1,31 @@
+@use './variables' as *;
+
 @mixin text-component-padding {
   line-height: 2.2em;
   padding: 0 1.4em;
+}
+
+@mixin remove-scrollbar {
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+@mixin hover-animation {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  &:hover {
+    transform: translate(-4px, -4px);
+    box-shadow: $shadow;
+  }
+}
+
+@mixin button-press {
+  $distance: 4px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  &:hover:not(:active) {
+    transform: translate(-$distance, -$distance);
+    box-shadow: $distance $distance 1px $shadow-color;
+  }
 }

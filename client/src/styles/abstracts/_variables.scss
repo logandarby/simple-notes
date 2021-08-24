@@ -6,9 +6,10 @@ $greenyellow: #c0d28c;
 $coffee: #a98467;
 $umber: #655247;
 $teal: #89b0ae;
+$shadow-color: rgba(0, 0, 0, 0.25);
 
 /* Border */
-$shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
+$shadow-border: 4px 4px 4px $shadow-color;
 $border: $umber solid 1px;
 $box-shadow: inset 0 0 0 1px $umber;
 $radius-tiny: 0.3em;

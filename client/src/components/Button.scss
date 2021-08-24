@@ -9,10 +9,5 @@
   @include text-component-padding;
   border-radius: $radius-tiny;
   transition: filter 0.2s;
-  &:hover {
-    filter: brightness(0.7);
-  }
-  &:active {
-    transform: translateY(0.2em);
-  }
+  @include button-press;
 }
