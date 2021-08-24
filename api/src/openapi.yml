@@ -32,8 +32,6 @@ paths:
             Set-Cookie:
               schema:
                 type: string
-        "400":
-          $ref: "#/components/responses/BadRequestError"
         "401":
           $ref: "#/components/responses/UnauthorizedError"
     delete:
