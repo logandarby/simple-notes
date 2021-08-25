@@ -1,7 +1,10 @@
 import "./Login.scss";
 import Form, { FormBody } from "../components/Form";
+import { useHistory } from "react-router-dom";
 
 function Login() {
+  const history = useHistory();
+
   const handleSubmit = async (body: FormBody) => {
     const res = await fetch("http://localhost:4000/session", {
       method: "POST",
@@ -18,7 +21,7 @@ function Login() {
         break;
       case 200:
         console.log("redirecting to notes");
-        window.location.href = "/";
+        history.push("/");
         break;
     }
   };

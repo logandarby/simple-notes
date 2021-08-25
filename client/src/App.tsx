@@ -8,20 +8,20 @@ import Notes from "./pages/Notes";
 
 function App() {
   return (
-    <NotesProvider>
+    <Router>
       <div className="App">
-        <Router>
-          <Switch>
-            <Route path="/login">
-              <Login />
-            </Route>
-            <Route path="/">
+        <Switch>
+          <Route path="/login">
+            <Login />
+          </Route>
+          <Route path="/">
+            <NotesProvider>
               <Notes />
-            </Route>
-          </Switch>
-        </Router>
+            </NotesProvider>
+          </Route>
+        </Switch>
       </div>
-    </NotesProvider>
+    </Router>
   );
 }
 
