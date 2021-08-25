@@ -9,22 +9,22 @@ import NoteModalProvider from "./modules/noteModal/provider";
 
 function App() {
   return (
-    <NoteModalProvider>
-      <NotesProvider>
-        <div className="App">
-          <Router>
-            <Switch>
-              <Route path="/login">
-                <Login />
-              </Route>
-              <Route path="/">
+    <div className="App">
+      <Router>
+        <Switch>
+          <Route path="/login">
+            <Login />
+          </Route>
+          <Route path="/">
+            <NoteModalProvider>
+              <NotesProvider>
                 <Notes />
-              </Route>
-            </Switch>
-          </Router>
-        </div>
-      </NotesProvider>
-    </NoteModalProvider>
+              </NotesProvider>
+            </NoteModalProvider>
+          </Route>
+        </Switch>
+      </Router>
+    </div>
   );
 }
 

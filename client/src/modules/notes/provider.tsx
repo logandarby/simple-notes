@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
 
 import { Note } from "../../apiResources";
 import NotesContext from "./context";
 
 const NotesProvider: React.FC<{}> = ({ children }) => {
   const [notes, setNotes] = useState<Note[]>([]);
+  const history = useHistory();
 
   // Fetch notes on component mount
   useEffect(() => {
@@ -14,14 +16,14 @@ const NotesProvider: React.FC<{}> = ({ children }) => {
     })
       .then((res) => {
         if (res.status === 401) {
-          window.location.href = "/login";
+          history.push("/login");
         }
         return res.json();
       })
       .then((json) => {
         setNotes(json);
       });
-  }, []);
+  }, [history]);
 
   const value = {
     state: { notes },

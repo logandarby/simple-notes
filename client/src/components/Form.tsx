@@ -12,7 +12,7 @@ export interface FormBody {
 export type FormSubmitFunction = (body: FormBody) => void;
 
 export interface FormProps {
-  onSubmit: FormSubmitFunction;
+  onSubmit?: FormSubmitFunction;
   className?: string;
 }
 
@@ -34,7 +34,7 @@ function Form({ className, onSubmit }: FormProps) {
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault();
-    onSubmit({ email, password });
+    !onSubmit || onSubmit({ email, password });
   };
 
   return (
