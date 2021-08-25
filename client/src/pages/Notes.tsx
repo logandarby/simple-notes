@@ -11,6 +11,8 @@ import NoteModal from "./notes/NoteModal";
 
 function Notes() {
   const [notes, setNotes] = useState<Note[]>([]);
+  const [openedNote, setOpenedNote] = useState<Note>();
+  const [modalShow, setModalShow] = useState<boolean>(true);
   const [searchQuery, setSearchQuery] = useState<string>("");
 
   // Fetch notes on component mount
@@ -41,6 +43,11 @@ function Notes() {
     });
   };
 
+  const openNote = (note: Note) => {
+    setOpenedNote(note);
+    setModalShow(true);
+  };
+
   return (
     <div className="Notes">
       <Header />
@@ -52,12 +59,14 @@ function Notes() {
         />
         <section className="Notes__Grid">
           {filterNotes(notes, searchQuery).map((note: Note) => {
-            return <NoteContainer note={note} key={note.id} />;
+            return (
+              <NoteContainer note={note} openNote={openNote} key={note.id} />
+            );
           })}
         </section>
         <AddNoteButton className="Notes__AddNoteButton" />
       </main>
-      <NoteModal />
+      <NoteModal note={openedNote} show={modalShow} setShow={setModalShow} />
     </div>
   );
 }
