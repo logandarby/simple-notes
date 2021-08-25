@@ -5,23 +5,26 @@ import "./App.scss";
 import NotesProvider from "./modules/notes/provider";
 import Login from "./pages/Login";
 import Notes from "./pages/Notes";
+import NoteModalProvider from "./modules/noteModal/provider";
 
 function App() {
   return (
-    <NotesProvider>
-      <div className="App">
-        <Router>
-          <Switch>
-            <Route path="/login">
-              <Login />
-            </Route>
-            <Route path="/">
-              <Notes />
-            </Route>
-          </Switch>
-        </Router>
-      </div>
-    </NotesProvider>
+    <NoteModalProvider>
+      <NotesProvider>
+        <div className="App">
+          <Router>
+            <Switch>
+              <Route path="/login">
+                <Login />
+              </Route>
+              <Route path="/">
+                <Notes />
+              </Route>
+            </Switch>
+          </Router>
+        </div>
+      </NotesProvider>
+    </NoteModalProvider>
   );
 }
 

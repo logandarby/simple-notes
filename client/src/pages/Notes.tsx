@@ -6,15 +6,12 @@ import NoteContainer from "./notes/NoteContainer";
 import SearchBar from "./notes/SearchBar";
 import { Note } from "../apiResources";
 import AddNoteButton from "./notes/AddNoteButton";
-import NoteModal from "./notes/NoteModal";
 import useNotes from "../modules/notes/use";
 
 function Notes() {
   const {
     state: { notes },
   } = useNotes();
-  const [openedNote, setOpenedNote] = useState<Note>();
-  const [modalShow, setModalShow] = useState<boolean>(true);
   const [searchQuery, setSearchQuery] = useState<string>("");
 
   const filterNotes = (notes: Note[], query: string) => {
@@ -28,11 +25,6 @@ function Notes() {
     });
   };
 
-  const openNote = (note: Note) => {
-    setOpenedNote(note);
-    setModalShow(true);
-  };
-
   return (
     <div className="Notes">
       <Header />
@@ -44,14 +36,11 @@ function Notes() {
         />
         <section className="Notes__Grid">
           {filterNotes(notes, searchQuery).map((note: Note) => {
-            return (
-              <NoteContainer note={note} openNote={openNote} key={note.id} />
-            );
+            return <NoteContainer note={note} key={note.id} />;
           })}
         </section>
         <AddNoteButton className="Notes__AddNoteButton" />
       </main>
-      <NoteModal note={openedNote} show={modalShow} setShow={setModalShow} />
     </div>
   );
 }
