@@ -10,7 +10,6 @@ label {
   @include h1;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
+::selection {
+  background-color: $greenyellow;
 }
