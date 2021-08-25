@@ -6,6 +6,7 @@ import Header from "./notes/Header";
 import NoteContainer from "./notes/NoteContainer";
 import SearchBar from "./notes/SearchBar";
 import { Note } from "../apiResources";
+import AddNoteButton from "./notes/AddNoteButton";
 
 function Notes() {
   const [notes, setNotes] = useState<Note[]>([]);
@@ -53,6 +54,7 @@ function Notes() {
             return <NoteContainer note={note} key={note.id} />;
           })}
         </section>
+        <AddNoteButton className="Notes__AddNoteButton" />
       </main>
     </div>
   );

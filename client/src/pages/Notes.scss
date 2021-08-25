@@ -7,4 +7,9 @@
   &__SearchBar {
     margin-bottom: 2rem;
   }
+  &__AddNoteButton {
+    position: fixed;
+    bottom: 5rem;
+    right: 17rem;
+  }
 }

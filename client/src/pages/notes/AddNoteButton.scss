@@ -1,0 +1,10 @@
+@use '../../styles/style.scss' as *;
+
+.AddNoteButton {
+  background-color: $teal;
+  border: none;
+  border-radius: 50%;
+  width: 5rem;
+  height: 5rem;
+  @include button-press;
+}
