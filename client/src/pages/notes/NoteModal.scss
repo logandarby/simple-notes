@@ -1,0 +1,54 @@
+@use '../../styles/style.scss' as *;
+
+.NoteModal {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba($color: black, $alpha: 0.15);
+  &__Container {
+    $width: 60vw;
+    $height: 40rem;
+    width: $width;
+    height: $height;
+    //border: $border;
+    border-radius: $radius-lg;
+    padding: 4em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: $offwhite;
+  }
+  &__Note {
+    flex: 1 1 auto;
+    width: 100%;
+    margin-bottom: 5rem; // From the bottom of the modal
+  }
+  &__Title {
+    border: none;
+    outline: none;
+    background-color: transparent;
+    @include h1;
+    display: block;
+    margin-bottom: 1.2em;
+    width: 100%;
+  }
+  &__Contents {
+    border: none;
+    outline: none;
+    background-color: transparent;
+    font-family: inherit;
+    resize: none;
+    @include p;
+    display: block;
+    height: 100%;
+    width: 100%;
+    @include remove-scrollbar;
+  }
+  &__Background {
+    width: 100vw;
+    height: 100vh;
+    background-color: red;
+  }
+}
