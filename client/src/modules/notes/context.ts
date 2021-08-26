@@ -5,12 +5,16 @@ interface NotesContextType {
   state: {
     notes: Note[];
   };
-  actions: {};
+  actions: {
+    createNote: () => Promise<Note> | void;
+  };
 }
 
 const NotesContext = createContext<NotesContextType>({
   state: { notes: [] },
-  actions: {},
+  actions: {
+    createNote: () => {},
+  },
 });
 
 export default NotesContext;

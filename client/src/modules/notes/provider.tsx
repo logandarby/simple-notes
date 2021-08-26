@@ -26,9 +26,26 @@ const NotesProvider: React.FC<{}> = ({ children }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const createNote = async () => {
+    const noteRequest = { title: "", contents: "" };
+    return await fetch("http://localhost:4000/notes", {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(noteRequest),
+    })
+      .then((res) => res.json())
+      .then((newNote: Note) => {
+        setNotes([newNote, ...notes]);
+        return newNote;
+      });
+  };
+
   const value = {
     state: { notes },
-    actions: {},
+    actions: { createNote },
   };
 
   return (
