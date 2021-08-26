@@ -16,11 +16,11 @@ function App() {
             <Login />
           </Route>
           <Route path="/">
-            <NoteModalProvider>
-              <NotesProvider>
+            <NotesProvider>
+              <NoteModalProvider>
                 <Notes />
-              </NotesProvider>
-            </NoteModalProvider>
+              </NoteModalProvider>
+            </NotesProvider>
           </Route>
         </Switch>
       </Router>

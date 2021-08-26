@@ -5,7 +5,6 @@ interface NoteModalContextType {
   state: {};
   actions: {
     openNoteModal: (note: Note) => void;
-    closeNoteModal: () => void;
   };
 }
 
@@ -13,7 +12,6 @@ const NoteModalContext = createContext<NoteModalContextType>({
   state: {},
   actions: {
     openNoteModal: (note: Note) => {},
-    closeNoteModal: () => {},
   },
 });
 

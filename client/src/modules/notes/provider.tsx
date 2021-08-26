@@ -43,9 +43,36 @@ const NotesProvider: React.FC<{}> = ({ children }) => {
       });
   };
 
+  // TODO: This update doesn't re-render the notes?
+  const updateNote = async (updatedNote: Note) => {
+    console.log("updating");
+    const res = await fetch(`http://localhost:4000/notes/${updatedNote.id}`, {
+      method: "PUT",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(updatedNote),
+    });
+    console.log(res);
+    switch (res.status) {
+      case 400:
+        console.log("Update Note: Bad Request");
+        break;
+      case 401:
+        console.log("Update Note: Note was not found");
+        break;
+      case 200:
+        const newNoteArray = notes.map((originalNote, index) =>
+          updatedNote.id === originalNote.id ? updatedNote : originalNote
+        );
+        setNotes([...newNoteArray]);
+    }
+  };
+
   const value = {
     state: { notes },
-    actions: { createNote },
+    actions: { createNote, updateNote },
   };
 
   return (

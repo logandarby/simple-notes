@@ -13,11 +13,9 @@ const NoteModalProvider: React.FC<{}> = ({ children }) => {
     setNote(note);
   };
 
-  const closeNoteModal = () => setShow(false);
-
   const value = {
     state: {},
-    actions: { openNoteModal, closeNoteModal },
+    actions: { openNoteModal },
   };
 
   return (

@@ -5,6 +5,7 @@ import { useRef } from "react";
 import { Note } from "../../apiResources";
 import Button from "../../components/Button";
 import { useOutsideAlerter } from "../../utils/customHooks";
+import useNotes from "../notes/use";
 import "./NoteModal.scss";
 
 export interface NoteModalProps extends React.HTMLProps<HTMLDivElement> {
@@ -18,13 +19,22 @@ function NoteModal({ show, setShow, ...props }: NoteModalProps) {
   const [contents, setContents] = useState(props.note?.contents || "");
   const modalRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-  useOutsideAlerter(containerRef, () => setShow(false));
+  const {
+    actions: { updateNote },
+  } = useNotes();
+  useOutsideAlerter(containerRef, closeNoteModal);
+
+  function closeNoteModal() {
+    console.log("closing");
+    if (props.note) updateNote({ ...props.note, title, contents });
+    setShow(false);
+  }
 
   // Update show, title, contents, and key listeners
   useEffect(() => {
     const _handleEscKey = (event: any) => {
       if (event.keyCode === 27) {
-        setShow(false);
+        closeNoteModal();
       }
     };
     if (show) {
@@ -34,6 +44,7 @@ function NoteModal({ show, setShow, ...props }: NoteModalProps) {
       modalRef.current!.style.display = "none";
       document.addEventListener("keydown", _handleEscKey, false);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [show, setShow]);
 
   useEffect(() => {
@@ -65,7 +76,7 @@ function NoteModal({ show, setShow, ...props }: NoteModalProps) {
           <Button
             text="close"
             className="NoteModal__CloseButton"
-            onClick={(e) => setShow(false)}
+            onClick={closeNoteModal}
           />
         </footer>
       </div>
