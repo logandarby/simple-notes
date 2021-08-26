@@ -6,7 +6,7 @@ import NoteModal from "./NoteModal";
 
 const NoteModalProvider: React.FC<{}> = ({ children }) => {
   const [note, setNote] = useState<Note>();
-  const [show, setShow] = useState<boolean>(true);
+  const [show, setShow] = useState<boolean>(false);
 
   const openNoteModal = (note: Note) => {
     setShow(true);

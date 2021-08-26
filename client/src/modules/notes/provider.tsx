@@ -23,7 +23,8 @@ const NotesProvider: React.FC<{}> = ({ children }) => {
       .then((json) => {
         setNotes(json);
       });
-  }, [history]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const value = {
     state: { notes },
