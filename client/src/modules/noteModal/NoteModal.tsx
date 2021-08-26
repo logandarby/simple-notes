@@ -11,7 +11,7 @@ import useNotes from "../notes/use";
 import "./NoteModal.scss";
 
 export interface NoteModalProps extends React.HTMLProps<HTMLDivElement> {
-  note: Note | undefined;
+  note: Note;
   setShow: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
@@ -21,7 +21,7 @@ function NoteModal({ setShow, ...props }: NoteModalProps) {
   const modalRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const {
-    actions: { updateNote },
+    actions: { updateNote, deleteNote },
   } = useNotes();
   useOutsideAlerter(containerRef, closeNoteModal);
   useEscapeKey(closeNoteModal);
@@ -68,7 +68,10 @@ function NoteModal({ setShow, ...props }: NoteModalProps) {
             <IconButton
               iconPath="trashIcon.svg"
               alt="delete"
-              onClick={() => {}}
+              onClick={() => {
+                deleteNote(props.note);
+                closeNoteModal();
+              }}
             />
           </IconButtonBar>
         </footer>

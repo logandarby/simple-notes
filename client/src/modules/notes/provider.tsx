@@ -43,7 +43,6 @@ const NotesProvider: React.FC<{}> = ({ children }) => {
       });
   };
 
-  // TODO: This update doesn't re-render the notes?
   const updateNote = async (updatedNote: Note) => {
     console.log("updating");
     const res = await fetch(`http://localhost:4000/notes/${updatedNote.id}`, {
@@ -63,16 +62,43 @@ const NotesProvider: React.FC<{}> = ({ children }) => {
         console.log("Update Note: Note was not found");
         break;
       case 200:
-        const newNoteArray = notes.map((originalNote, index) =>
+        const newNoteArray = notes.map((originalNote) =>
           updatedNote.id === originalNote.id ? updatedNote : originalNote
         );
         setNotes([...newNoteArray]);
+        break;
+    }
+  };
+
+  const deleteNote = async (deletedNote: Note) => {
+    console.log("deleting note");
+    const res = await fetch(`http://localhost:4000/notes/${deletedNote.id}`, {
+      method: "DELETE",
+      credentials: "include",
+    });
+    console.log(res);
+    switch (res.status) {
+      case 400:
+        console.log("Delete Note: Invalid request (Note ID)");
+        break;
+      case 404:
+        console.log("Delete Note: Note was not found");
+        break;
+      case 200:
+        console.log("Note successfully deleted");
+        let newNotesArray = notes;
+        newNotesArray = newNotesArray.filter(
+          (originalNote) => originalNote.id !== deletedNote.id
+        );
+        console.log(newNotesArray);
+        setNotes([...newNotesArray]);
+        break;
     }
   };
 
   const value = {
     state: { notes },
-    actions: { createNote, updateNote },
+    actions: { createNote, updateNote, deleteNote },
   };
 
   return (

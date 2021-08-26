@@ -8,6 +8,7 @@ interface NotesContextType {
   actions: {
     createNote: () => Promise<Note> | void;
     updateNote: (note: Note) => void;
+    deleteNote: (note: Note) => void;
   };
 }
 
@@ -18,6 +19,7 @@ const NotesContext = createContext<NotesContextType>({
     updateNote: (note: Note) => {
       console.log("The updateNote function isn't working");
     },
+    deleteNote: () => {},
   },
 });
 
