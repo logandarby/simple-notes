@@ -21,7 +21,7 @@ const NoteModalProvider: React.FC<{}> = ({ children }) => {
   return (
     <NoteModalContext.Provider value={value}>
       {children}
-      <NoteModal note={note} show={show} setShow={setShow} />
+      {show && <NoteModal note={note} setShow={setShow} />}
     </NoteModalContext.Provider>
   );
 };

@@ -4,17 +4,16 @@ import { useRef } from "react";
 
 import { Note } from "../../apiResources";
 import Button from "../../components/Button";
-import { useOutsideAlerter } from "../../utils/customHooks";
+import { useEscapeKey, useOutsideAlerter } from "../../utils/customHooks";
 import useNotes from "../notes/use";
 import "./NoteModal.scss";
 
 export interface NoteModalProps extends React.HTMLProps<HTMLDivElement> {
   note: Note | undefined;
-  show: boolean;
   setShow: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-function NoteModal({ show, setShow, ...props }: NoteModalProps) {
+function NoteModal({ setShow, ...props }: NoteModalProps) {
   const [title, setTitle] = useState(props.note?.title || "");
   const [contents, setContents] = useState(props.note?.contents || "");
   const modalRef = useRef<HTMLDivElement>(null);
@@ -23,34 +22,19 @@ function NoteModal({ show, setShow, ...props }: NoteModalProps) {
     actions: { updateNote },
   } = useNotes();
   useOutsideAlerter(containerRef, closeNoteModal);
+  useEscapeKey(closeNoteModal);
+
+  // Update the note showing
+  useEffect(() => {
+    setTitle(props.note?.title || "");
+    setContents(props.note?.contents || "");
+  }, [props.note]);
 
   function closeNoteModal() {
     console.log("closing");
     if (props.note) updateNote({ ...props.note, title, contents });
     setShow(false);
   }
-
-  // Update show, title, contents, and key listeners
-  useEffect(() => {
-    const _handleEscKey = (event: any) => {
-      if (event.keyCode === 27) {
-        closeNoteModal();
-      }
-    };
-    if (show) {
-      modalRef.current!.style.display = "flex";
-      document.addEventListener("keydown", _handleEscKey, false);
-    } else {
-      modalRef.current!.style.display = "none";
-      document.addEventListener("keydown", _handleEscKey, false);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [show, setShow]);
-
-  useEffect(() => {
-    setTitle(props.note?.title || "");
-    setContents(props.note?.contents || "");
-  }, [props.note]);
 
   return (
     <div {...props} className="NoteModal" ref={modalRef}>
