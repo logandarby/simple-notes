@@ -1,0 +1,7 @@
+@use '../styles/style.scss' as *;
+
+.IconButtonBar {
+  display: inline-block;
+  vertical-align: bottom;
+  @include text-component-padding;
+}

@@ -1,0 +1,30 @@
+@use '../styles/style.scss' as *;
+
+.IconButton {
+  width: fit-content;
+  height: $inline-component-height;
+  vertical-align: bottom;
+  position: relative;
+  transition: transform 0.2s ease;
+  display: inline-block;
+  padding: 0 0.4em;
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 100% 0 0;
+    height: 1px;
+    background-color: $umber;
+    opacity: 0;
+    transform: translateY(3px);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+  }
+  &:hover::before {
+    opacity: 100%;
+    transform: translateY(0px);
+  }
+  &:active {
+    transform: translateY(5px);
+  }
+  display: inline-flex;
+  align-items: center;
+}

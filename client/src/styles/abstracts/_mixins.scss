@@ -2,7 +2,7 @@
 
 @mixin text-component-padding {
   //line-height: 2.2em;
-  height: 2.2em;
+  height: $inline-component-height;
   padding: 0 1.4em;
 }
 

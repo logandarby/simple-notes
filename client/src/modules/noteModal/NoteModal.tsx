@@ -4,6 +4,8 @@ import { useRef } from "react";
 
 import { Note } from "../../apiResources";
 import Button from "../../components/Button";
+import IconButton from "../../components/IconButton";
+import IconButtonBar from "../../components/IconButtonBar";
 import { useEscapeKey, useOutsideAlerter } from "../../utils/customHooks";
 import useNotes from "../notes/use";
 import "./NoteModal.scss";
@@ -62,6 +64,13 @@ function NoteModal({ setShow, ...props }: NoteModalProps) {
             className="NoteModal__CloseButton"
             onClick={closeNoteModal}
           />
+          <IconButtonBar>
+            <IconButton
+              iconPath="trashIcon.svg"
+              alt="delete"
+              onClick={() => {}}
+            />
+          </IconButtonBar>
         </footer>
       </div>
     </div>
