@@ -1,6 +1,6 @@
 import "./NoteContainer.scss";
-import { Note } from "../../apiResources";
-import useNoteModal from "../../modules/noteModal/use";
+import { Note } from "../../../apiResources";
+import useNoteModal from "../../../modules/noteModal/use";
 
 interface NoteContainerProps {
   note: Note;
