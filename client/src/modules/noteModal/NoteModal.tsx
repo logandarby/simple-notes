@@ -58,7 +58,7 @@ function NoteModal({ setShow, ...props }: NoteModalProps) {
             spellCheck={false}
           ></textarea>
         </main>
-        <footer className="NoteModal_Footer">
+        <footer className="NoteModal__Footer">
           <Button
             text="close"
             className="NoteModal__CloseButton"

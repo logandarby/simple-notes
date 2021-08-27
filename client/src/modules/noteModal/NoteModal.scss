@@ -47,6 +47,7 @@
     height: 100%;
     width: 100%;
     @include remove-scrollbar;
+    border-bottom: 2px solid $eggshell;
   }
   &__Background {
     width: 100vw;
