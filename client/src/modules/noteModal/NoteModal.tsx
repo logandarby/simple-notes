@@ -1,6 +1,5 @@
-import { useEffect } from "react";
-import { useState } from "react";
-import { useRef } from "react";
+import debounce from "lodash.debounce";
+import { useEffect, useState, useRef, useCallback } from "react";
 
 import { Note } from "../../apiResources";
 import Button from "../../components/Button";
@@ -9,6 +8,8 @@ import IconButtonBar from "../../components/IconButtonBar";
 import { useEscapeKey, useOutsideAlerter } from "../../utils/customHooks";
 import useNotes from "../notes/use";
 import "./NoteModal.scss";
+
+const DEBOUNCE_SAVE_DELAY_MS = 3000;
 
 export interface NoteModalProps extends React.HTMLProps<HTMLDivElement> {
   note: Note;
@@ -31,6 +32,19 @@ function NoteModal({ setShow, ...props }: NoteModalProps) {
     setTitle(props.note?.title || "");
     setContents(props.note?.contents || "");
   }, [props.note]);
+
+  // Autosave notes
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const debouncedSave = useCallback(
+    debounce((newNote: Note) => updateNote(newNote), DEBOUNCE_SAVE_DELAY_MS, {
+      maxWait: DEBOUNCE_SAVE_DELAY_MS,
+    }),
+    []
+  );
+  useEffect(() => {
+    if (props.note) debouncedSave({ ...props.note, contents, title });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [contents, props.note, title]);
 
   function closeNoteModal() {
     console.log("closing");
