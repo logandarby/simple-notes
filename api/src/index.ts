@@ -43,6 +43,7 @@ const main = async () => {
       cookie: {
         maxAge: 1000 * 60 * 60 * 24 * 30, // A month
         httpOnly: true,
+        sameSite: "lax",
         //secure: true, // for production environment using https
       },
     })
