@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react";
+
 import { Note } from "../../apiResources";
 import useNotes from "../../modules/notes/use";
 import NoteContainer from "./notesGrid/NoteContainer";
@@ -11,6 +13,11 @@ function NotesGrid(props: NotesGridProps) {
   const {
     state: { notes },
   } = useNotes();
+  const [filteredNotes, setFilteredNotes] = useState<Note[]>([]);
+
+  useEffect(() => {
+    setFilteredNotes(filterNotes(notes, props.searchQuery));
+  }, [notes, props.searchQuery]);
 
   const filterNotes = (notes: Note[], query: string) => {
     if (!query) {
@@ -25,9 +32,13 @@ function NotesGrid(props: NotesGridProps) {
 
   return (
     <section className="NotesGrid">
-      {filterNotes(notes, props.searchQuery).map((note: Note) => {
-        return <NoteContainer note={note} key={note.id} />;
-      })}
+      {filteredNotes.length !== 0 ? (
+        filteredNotes.map((note: Note) => {
+          return <NoteContainer note={note} key={note.id} />;
+        })
+      ) : (
+        <p>Seems like there's nothing here...</p>
+      )}
     </section>
   );
 }
