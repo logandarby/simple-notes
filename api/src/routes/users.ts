@@ -19,7 +19,7 @@ users
       password: encrypedPassword,
     });
     await user.save();
-    res.redirect("/login");
+    res.sendStatus(200);
   });
 
 export default users;

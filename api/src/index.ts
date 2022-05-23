@@ -11,10 +11,9 @@ import "./config/passport";
 import routes from "./routes";
 import { Session } from "./entity/Session";
 import { createConnection } from "typeorm";
+import { CLIENT_ORIGIN, API_SECRET, API_PORT } from "./globals";
 
 const app = express();
-const PORT = process.env.PORT ?? 4000;
-const SECRET = process.env.SECRET ?? "Ey2pTsjgZ26NKXv4GsJlXuCO4pSEM8g9";
 
 const main = async () => {
   const connection = await createConnection();
@@ -27,7 +26,7 @@ const main = async () => {
   // Initializing middleware
   app.use(
     cors({
-      origin: "http://localhost:3000",
+      origin: CLIENT_ORIGIN,
       credentials: true,
     })
   );
@@ -36,7 +35,7 @@ const main = async () => {
 
   app.use(
     session({
-      secret: SECRET,
+      secret: API_SECRET,
       store: sessionStore,
       resave: false,
       saveUninitialized: false,
@@ -57,9 +56,13 @@ const main = async () => {
   const swaggerDocument = YAML.load("./src/openapi.yml");
   app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
-  app.listen(PORT, () => {
-    console.log(`Server running at localhost:${PORT} 🚀`);
+  app.listen(API_PORT, () => {
+    console.log(`Server running at localhost:${API_PORT} 🚀`);
   });
 };
 
-main();
+try {
+  main();
+} catch (e) {
+  console.error(e);
+}

@@ -8,7 +8,6 @@ import NotesGrid from "./notes/NotesGrid";
 
 function Notes() {
   const [searchQuery, setSearchQuery] = useState<string>("");
-
   return (
     <div className="Notes">
       <Header />

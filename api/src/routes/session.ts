@@ -10,8 +10,10 @@ session
     res.sendStatus(200);
   })
   .delete((req, res) => {
-    req.logout();
-    res.sendStatus(200);
+    req.session.destroy((err) => {
+      console.log("session desroyed");
+      res.sendStatus(200);
+    });
   });
 
 export default session;

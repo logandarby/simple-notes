@@ -14,9 +14,10 @@ export type FormSubmitFunction = (body: FormBody) => void;
 export interface FormProps {
   onSubmit?: FormSubmitFunction;
   className?: string;
+  submitText?: string;
 }
 
-function Form({ className, onSubmit }: FormProps) {
+function Form({ className, onSubmit, submitText = "submit" }: FormProps) {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
@@ -63,7 +64,7 @@ function Form({ className, onSubmit }: FormProps) {
         value={password}
         onChange={handlePasswordChange}
       />
-      <Button className="Form__Button" text="sumbit" />
+      <Button className="Form__Button" text={submitText.toLowerCase()} />
     </form>
   );
 }

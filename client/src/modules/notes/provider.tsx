@@ -3,6 +3,7 @@ import { useHistory } from "react-router-dom";
 
 import { Note } from "../../apiResources";
 import NotesContext from "./context";
+import { API_URL } from "../../globals";
 
 const NotesProvider: React.FC<{}> = ({ children }) => {
   const [notes, setNotes] = useState<Note[]>([]);
@@ -10,7 +11,7 @@ const NotesProvider: React.FC<{}> = ({ children }) => {
 
   // Fetch notes on component mount
   useEffect(() => {
-    fetch("http://localhost:4000/notes", {
+    fetch(`${API_URL}/notes`, {
       method: "GET",
       credentials: "include",
     })
@@ -28,7 +29,7 @@ const NotesProvider: React.FC<{}> = ({ children }) => {
 
   const createNote = async () => {
     const noteRequest = { title: "", contents: "" };
-    return await fetch("http://localhost:4000/notes", {
+    return await fetch(`${API_URL}/notes`, {
       method: "POST",
       credentials: "include",
       headers: {
@@ -45,7 +46,7 @@ const NotesProvider: React.FC<{}> = ({ children }) => {
 
   const updateNote = async (updatedNote: Note) => {
     console.log("updating");
-    const res = await fetch(`http://localhost:4000/notes/${updatedNote.id}`, {
+    const res = await fetch(`${API_URL}/notes/${updatedNote.id}`, {
       method: "PUT",
       credentials: "include",
       headers: {
@@ -72,7 +73,7 @@ const NotesProvider: React.FC<{}> = ({ children }) => {
 
   const deleteNote = async (deletedNote: Note) => {
     console.log("deleting note");
-    const res = await fetch(`http://localhost:4000/notes/${deletedNote.id}`, {
+    const res = await fetch(`${API_URL}/notes/${deletedNote.id}`, {
       method: "DELETE",
       credentials: "include",
     });

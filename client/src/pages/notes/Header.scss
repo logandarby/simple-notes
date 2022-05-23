@@ -1,14 +1,9 @@
-@use '../../styles/style.scss' as *;
+@use "../../styles/style.scss" as *;
 
 .Header {
   margin: 4rem 0;
   &__Title {
-    font-style: normal;
-    font-weight: bold;
-    font-size: 3rem;
-    line-height: 3rem * 1.21875;
-    margin: 0;
-    margin-bottom: 0.6rem;
+    @include title;
   }
   &__Circle {
     width: 2rem;
@@ -25,5 +20,8 @@
     &--Dark {
       background-color: $greenyellow;
     }
+  }
+  &__Button {
+    float: right;
   }
 }

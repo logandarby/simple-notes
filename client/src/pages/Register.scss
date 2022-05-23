@@ -1,0 +1,9 @@
+.Register {
+  height: 100vh;
+  width: 100%;
+  display: grid;
+  justify-content: center;
+  &__Form {
+    margin-top: 10rem;
+  }
+}

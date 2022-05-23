@@ -6,6 +6,7 @@ import NotesProvider from "./modules/notes/provider";
 import Login from "./pages/Login";
 import Notes from "./pages/Notes";
 import NoteModalProvider from "./modules/noteModal/provider";
+import Register from "./pages/Register";
 
 function App() {
   return (
@@ -14,6 +15,9 @@ function App() {
         <Switch>
           <Route path="/login">
             <Login />
+          </Route>
+          <Route path="/register">
+            <Register />
           </Route>
           <Route path="/">
             <NotesProvider>
