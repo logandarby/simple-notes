@@ -1,0 +1,60 @@
+version: "3"
+services:
+  postgres:
+    image: postgres
+    restart: always
+    volumes:
+      - pgdata:/var/libpostgres/data
+    environment:
+      - POSTGRES_DB=${DB_HOST}
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASS}
+    ports:
+      - 5432:5432
+    networks:
+      - back-tier
+  api:
+    build: ./api
+    environment:
+      - DB_HOST=${DB_HOST}
+      - DB_PORT=${DB_PORT}
+      - DB_USER=${DB_USER}
+      - DB_PASS=${DB_PASS}
+      - DB_NAME=${DB_NAME}
+      - API_PORT=${API_PORT}
+      - SECRET=${API_SECRET}
+      - CLIENT_ORIGIN=http://localhost:${CLIENT_PORT}
+    ports:
+      - 4000:4000
+    networks:
+      - back-tier
+      - front-tier
+    restart: on-failure
+    depends_on:
+      - postgres
+  client:
+    build: ./client
+    environment:
+      - PORT=${CLIENT_PORT}
+      - API_HOST=${API_HOST}
+    expose:
+      - 3000
+    ports:
+      - 3000:3000
+    networks:
+      - front-tier
+    depends_on:
+      - api
+
+volumes:
+  pgdata:
+    driver: azure_file
+    driver_opts:
+      share_name: myfileshare
+      storage_account_name: simplenotesstore
+
+networks:
+  back-tier:
+    driver: bridge
+  front-tier:
+    driver: bridge
